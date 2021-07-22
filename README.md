@@ -18,16 +18,17 @@ You might also be wondering where the K8s cluster is. This is also your challeng
 
 - Update [main.tf](./main.tf) and this README in the root directory. You may also need to update the providers that you find there. Make sure that the engineer reviewing your work has all the information they need to run your scripts, build your cluster, and repeat the setup you did.
 
-## Additional Challenges
-Note: These are stretch goals for a junior or mid-level engineer. A candidate for a senior engineer or staff engineer position should consider at least some of these mandatory to be considered further.
+==============
+Completed the above tasks. Please run the below steps to deploy the cluster and app
 
-- Test your module(s) using Terratest https://terratest.gruntwork.io/
-- Create a Terraform module to bootstrap a basic observability setup with Prometheus and Grafana.
-- Create a Terraform module to setup basic logging with Loki.
-- Replace your 'hello world' or 'welcome to nginx' app with something more complex, like a containerized sudoku webapp you may have found
-- Create a Grafana dashboard that monitors your application
-- Create a load-testing script for your application
+- Clone the repository
+- terraform init --> to install all the providers and modules
+- terraform plan , terraform apply to install the cluster.
+- Run terraform output config_map_aws_auth and save the config output to a file config.yaml
+- Run run kubectl apply -f config.yaml ->> this creates an aws-auth configmap in that helps to join nodes to the cluster
+- 
 
+#Accessing the application
 
-## Additional Additional Challenge
-- Implement the `postgres` module, a volume or two, and a CRUD app of your own devising. We use Python and Go in the infrastructure team. The company's APIs are written in Scala or Node.
+- Once the application is installed run kubectl get ingress -n app and copy the Address --> this is the dns name of the ALB.
+- curl -H "Host: chart-example.local" <dns name copied above> -> this will send curl request to the application with the required host
